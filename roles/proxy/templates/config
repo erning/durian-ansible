@@ -1,0 +1,16 @@
+confdir /etc/privoxy
+logdir /var/log/privoxy
+logfile logfile
+listen-address  [::]:8118
+toggle  0
+enable-remote-toggle  0
+enable-remote-http-toggle  0
+enable-edit-actions 0
+enforce-blocks 0
+buffer-limit 4096
+forwarded-connect-retries  0
+accept-intercepted-requests 0
+allow-cgi-request-crunching 0
+split-large-forms 0
+keep-alive-timeout 300
+socket-timeout 300

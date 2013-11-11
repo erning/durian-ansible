@@ -1,0 +1,13 @@
+---
+- name: install privoxy
+  apt: pkg=privoxy state=installed
+
+- name: configure privoxy
+  template: src=config
+            dest=/etc/privoxy/config
+            owner=root group=root mode=0644
+  notify: restart privoxy
+
+- name: start privoxy
+  service: name=privoxy state=started enabled=true
+
