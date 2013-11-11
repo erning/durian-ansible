@@ -1,0 +1,22 @@
+---
+- name: install openvpn
+  apt: pkg=openvpn state=installed
+
+- name: configure openvpn server
+  template: src={{ item.src }}
+            dest={{ item.dest }}
+            owner=root group=root mode={{ item.mode }}
+  with_items:
+    - { src: 'server.conf', dest: '/etc/openvpn/server.conf', mode: '0644' }
+    - { src: 'server.up.sh', dest: '/etc/openvpn/server.up.sh', mode: '0755' }
+    - { src: 'server.down.sh', dest: '/etc/openvpn/server.down.sh', mode: '0755' }
+    - { src: 'secrets/openvpn/server.crt', dest: '/etc/openvpn/server.crt', mode: '0644' }
+    - { src: 'secrets/openvpn/server.key', dest: '/etc/openvpn/server.key', mode: '0640' }
+    - { src: 'secrets/openvpn/ca.crt', dest: '/etc/openvpn/ca.crt', mode: '0644' }
+    - { src: 'secrets/openvpn/ta.key', dest: '/etc/openvpn/ta.key', mode: '0644' }
+    - { src: 'secrets/openvpn/dh1024.pem', dest: '/etc/openvpn/dh1024.pem', mode: '0640' }
+  notify: restart openvpn server
+
+- name: start openvpn server
+  service: name=openvpn state=started args=server enabled=true
+

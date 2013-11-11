@@ -1,0 +1,4 @@
+---
+- name: restart openvpn server
+  service: name=openvpn state=restarted args=server
+
