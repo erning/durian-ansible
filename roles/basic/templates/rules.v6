@@ -1,0 +1,34 @@
+*mangle
+:PREROUTING ACCEPT
+:INPUT ACCEPT
+:FORWARD ACCEPT
+:OUTPUT ACCEPT
+:POSTROUTING ACCEPT
+COMMIT
+
+*filter
+:INPUT ACCEPT
+:FORWARD ACCEPT
+:OUTPUT ACCEPT
+
+-A INPUT -i lo -j ACCEPT
+-A INPUT -s fe80::/10 -j ACCEPT
+-A INPUT -d ff00::/8 -j ACCEPT
+
+-A INPUT -p ipv6-icmp -j ACCEPT
+
+-A INPUT -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+# basic network services
+-A INPUT -p udp -m udp --dport 53 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+
+# alcohol.swanpan.com
+-A INPUT -s 2001:470:1f04:ba5::/64 -p tcp -m tcp --dport 8118 -j ACCEPT
+-A INPUT -s 2001:470:1f05:ba5::/64 -p tcp -m tcp --dport 8118 -j ACCEPT
+
+# reject others
+-A INPUT -i eth0 -j REJECT --reject-with icmp6-port-unreachable
+COMMIT

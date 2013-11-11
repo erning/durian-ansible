@@ -1,0 +1,4 @@
+# vi: set ft=yaml :
+---
+ubuntu_mirror: http://archive.ubuntu.com/ubuntu
+

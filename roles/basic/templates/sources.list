@@ -1,0 +1,7 @@
+deb {{ ubuntu_mirror }} saucy main multiverse restricted universe
+deb {{ ubuntu_mirror }} saucy-updates main multiverse restricted universe
+deb {{ ubuntu_mirror }} saucy-backports main multiverse restricted universe
+{% if inventory_hostname == 'durian' %}
+deb http://security.ubuntu.com/ubuntu saucy-security main multiverse restricted universe
+{% endif %}
+

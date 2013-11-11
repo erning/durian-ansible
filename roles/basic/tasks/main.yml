@@ -1,0 +1,46 @@
+---
+- name: ensure sources.list is present
+  template: src=sources.list
+            dest=/etc/apt/sources.list
+            owner=root group=root mode=0644
+
+- name: ensure apt cache has been updated
+  apt: update_cache=yes cache_valid_time=86400
+
+- name: ensure locale is en_US.UTF-8
+  command: /usr/sbin/locale-gen en_US.UTF-8
+
+- name: ensure erning user is present
+  user: name=erning uid=1000 group=users state=present
+        shell=/bin/bash
+        createhome=yes
+        non_unique=yes
+
+- name: setup authorized_keys for erning
+  authorized_key: user=erning
+                  key="{{ lookup('file', '../files/authorized_keys') }}"
+
+- name: set vm.swappiness to 0
+  sysctl: name=vm.swappiness value=0 state=present
+
+- name: set net.ipv4.ip_forward
+  sysctl: name=net.ipv4.ip_forward value=1 state=present
+
+- name: install iptables-persistent
+  apt: pkg=iptables-persistent state=installed
+
+- name: ensure rules.v4 is present
+  template: src=rules.v4
+            dest=/etc/iptables/rules.v4
+            owner=root group=root mode=0644
+  notify: restart iptables-persistent
+
+- name: ensure rules.v6 is present
+  template: src=rules.v6
+            dest=/etc/iptables/rules.v6
+            owner=root group=root mode=0644
+  notify: restart iptables-persistent
+
+- name: start iptables-persistent
+  service: name=iptables-persistent state=started enabled=true
+
