@@ -1,7 +1,16 @@
 deb {{ ubuntu_mirror }} saucy main multiverse restricted universe
 deb {{ ubuntu_mirror }} saucy-updates main multiverse restricted universe
+deb {{ ubuntu_mirror }} saucy-proposed main multiverse restricted universe
 deb {{ ubuntu_mirror }} saucy-backports main multiverse restricted universe
 {% if inventory_hostname == 'durian' %}
 deb http://security.ubuntu.com/ubuntu saucy-security main multiverse restricted universe
+{% endif %}
+
+deb-src {{ ubuntu_mirror }} saucy main multiverse restricted universe
+deb-src {{ ubuntu_mirror }} saucy-updates main multiverse restricted universe
+deb-src {{ ubuntu_mirror }} saucy-proposed main multiverse restricted universe
+deb-src {{ ubuntu_mirror }} saucy-backports main multiverse restricted universe
+{% if inventory_hostname == 'durian' %}
+deb-src http://security.ubuntu.com/ubuntu saucy-security main multiverse restricted universe
 {% endif %}
 

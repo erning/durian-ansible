@@ -1,6 +1,6 @@
 # vi: set ft=yaml :
 ---
-ansible_ssh_host: 192.241.229.24
+ansible_ssh_host: 198.199.112.168
 
 ubuntu_mirror: http://us.archive.ubuntu.com/ubuntu
 
